@@ -91,21 +91,23 @@ export default class RestaurantsDAO {
       return { restaurantsList: [], totalNumRestaurants: 0 };
     }
 
-      const displayCursor = cursor
-        // The cursor has every single result
-        // so we are going to limit them
-        .limit(restaurantsPerPage)
-        // to get the actual page number we do a skip
-          .skip((restaurantsPerPage * page));
-      
-      try {
-          //convert the displayCursor to an array
-          const restaurantsList = await displayCursor.toArray();
-          const totalNumRestaurants = await restaurants.countDocuments(query)
-          return {restaurantsList, totalNumRestaurants}
-      } catch (e) {
-          console.error(`Unable to convert cursor to array or problem counting documents, ${e}`)
-          return {restaurantsList: [], totalNumRestaurants = 0}
-      }
+    const displayCursor = cursor
+      // The cursor has every single result
+      // so we are going to limit them
+      .limit(restaurantsPerPage)
+      // to get the actual page number we do a skip
+      .skip(restaurantsPerPage * page);
+
+    try {
+      //convert the displayCursor to an array
+      const restaurantsList = await displayCursor.toArray();
+      const totalNumRestaurants = await restaurants.countDocuments(query);
+      return { restaurantsList, totalNumRestaurants };
+    } catch (e) {
+      console.error(
+        `Unable to convert cursor to array or problem counting documents, ${e}`
+      );
+      return { restaurantsList: [], totalNumRestaurants: 0 };
+    }
   }
 }
