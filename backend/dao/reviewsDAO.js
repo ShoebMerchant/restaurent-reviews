@@ -57,7 +57,7 @@ export default class ReviewsDAO {
         _id: ObjectId(reviewId),
         user_id: userId,
       });
-
+      console.log("review deleted")
       return deleteResponse;
     } catch (err) {
       console.error(`Unable to delete review: ${e}`);
